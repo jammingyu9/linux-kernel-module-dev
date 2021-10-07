@@ -11,7 +11,7 @@
   * 기간: 21년 10월 ~ 22년 2월
     * 21년도: 리눅스 커널 및 모듈 아키텍쳐와 동작 원리 이해
     * 22년도: 리눅스 커널 모듈 개발 및 데모
-    * 세부 계획 링크: -
+    * 세부 계획 링크: https://github.com/jammingyu9/linux-kernel-module-dev/blob/main/PLAN.md
 * 레퍼런스
   * Linux Kernel Programming (2021, 1st ed)
   * https://www.kernel.org/doc/html/latest/
