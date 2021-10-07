@@ -15,4 +15,5 @@
 * 레퍼런스
   * Linux Kernel Programming (2021, 1st ed)
   * https://www.kernel.org/doc/html/latest/
+  * Code Complete (2nd ed)
 
