@@ -20,3 +20,20 @@
 ## cons
 * A limited amount of memory can be allocated at a time
 * Using the APIs incorrectly can lead to internal fragmentation (wastage). It's designed to only really optimize for the common case - for allocations of a size less than one page
+
+# Debugging at the slab layer
+* SLUB (the unqueued allocator) implementation of the slab layer is the default on most Linux installations
+* If CONFIG_SLUB_DEBUG flag is on, kernel injects special values to memory when (when init, free or at the end of address)
+* Kernel may trigger a report when those values are changed before allocation or after free (prevent UAF)
+
+# Understanding and using the kernel vmalloc() API
+* vmalloc region is another completely virtual address space within the kernel's address space from where virtual pages can be allocated at will
+* Of course, ultimately, once a virtual page is actually used - it's physical page frame that it's mapped to is really allocated via the page allocator
+* You can allocate virtual memory from the kernel's vmalloc region using the *vmalloc()* API
+  * The vmalloc() API allocates contiguous virtual memory to the caller (no guarantee that it will be physically contiguous)
+  * The vmalloc() APIs must only ever be invoked from a process context
+  * The actual allocated memory might well be larger than what's requested
+* **when you require a larger virtually contiguous buffer of a size greater than the slab APIs can provide, then you should use vmalloc!**
+* analogous *vzalloc(), vfree()* APIs provided
+
+
