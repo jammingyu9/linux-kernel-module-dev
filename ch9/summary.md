@@ -75,3 +75,20 @@ static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
 }
 ```
 * For NUMA awareness, check *kvmalloc_node()*
+
+# Specifying the memory protections
+* what if you intend to specify certain specific memory protections for the memory pages you allocate? In this case, use the underlying *__vmalloc()* API
+* From kernel v5.8 third parameter has been removed (since its not being used)
+* Why protections? There maybe a case like memory mapping some kernel memory into user space, and provide write protection from user space
+
+# The kmalloc() and vmalloc() APIs - a quick comparison
+|Characteristic |kmalloc() or kzalloc() |vmalloc() or vzalloc()|
+|--|--|--|
+|Memory allocated is |Physically contiguous |Virtually contiguous |
+|Memory alignment |Aligned to hardware (CPU) cacheline|Page-aligned|
+|Minimum granularity| Arch-dependent; as low as 8 bytes on x86(64)| 1 page|
+|Performance|Much faster for small memory allocations; ideal for allocations < 1 page| Slower, demand-paged; can service large (virtual) allocations|
+|Size limitation|Limited (to typically 4MB)|Very large|
+|Suitability|Suitable for almost all use cases where performance matters, the memory required is small, including DMA; can work in atomic/interrupt contexts |Suitable for large software contiguous buffers; slower, cannot be allocated in atomic/interrupt contexts|
+
+# Memory allocation in the kernel - which APIs to use when
